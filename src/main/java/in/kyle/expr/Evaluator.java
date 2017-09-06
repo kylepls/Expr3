@@ -20,7 +20,11 @@ public class Evaluator extends ExprBaseVisitor<Double> {
     }
     
     double getVariableValue(String name) {
-        return variables.get(name);
+        if (variables.containsKey(name)) {
+            return variables.get(name);
+        } else {
+            throw new RuntimeException("No such variable " + name);
+        }
     }
     
     private Double visitExpr(ExprParser.ExprContext context) {
@@ -79,18 +83,14 @@ public class Evaluator extends ExprBaseVisitor<Double> {
     @Override
     public Double visitOP_GETVAR(ExprParser.OP_GETVARContext ctx) {
         String name = ctx.NAME().getText();
-        if (variables.containsKey(name)) {
-            return variables.get(name);
-        } else {
-            throw new RuntimeException("No such variable " + name);
-        }
+        return getVariableValue(name);
     }
     
     @Override
     public Double visitOP_COMPARE(ExprParser.OP_COMPAREContext ctx) {
         double a = visitExpr(ctx.expr(0));
         double b = visitExpr(ctx.expr(1));
-    
+        
         int type = ctx.op.getType();
         if (type == ExprParser.EQ) {
             return toBinary(a == b);
@@ -123,13 +123,19 @@ public class Evaluator extends ExprBaseVisitor<Double> {
     
     @Override
     public Double visitIMP_MUL_2(ExprParser.IMP_MUL_2Context ctx) {
-        System.out.println("Vis");
-        return visit(ctx.number()) * visit(ctx.NAME());
+        double a = visit(ctx.number());
+        double b = getVariableValue(ctx.NAME().getText());
+        return a * b;
+    }
+    
+    @Override
+    public Double visitNumber(ExprParser.NumberContext ctx) {
+        return Double.parseDouble(ctx.getText());
     }
     
     @Override
     public Double visitOP_NUMBER(ExprParser.OP_NUMBERContext ctx) {
-        return Double.parseDouble(ctx.getText());
+        return visit(ctx.number());
     }
     
     public void registerFunction(String name, Method method) {
@@ -160,7 +166,6 @@ public class Evaluator extends ExprBaseVisitor<Double> {
             Method method = functions.get(name);
             Object[] objects = parseArgs(ctx.expr());
             try {
-                System.out.println("C: " + objects.length);
                 return ((Number) method.invoke(null, objects)).doubleValue();
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException("Error running " + name, e);

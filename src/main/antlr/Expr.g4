@@ -21,7 +21,7 @@ expr: function_call                                   # OP_FUNC
 assignment   : NAME EQ expr ;
 function_call: NAME PAR_OPEN (expr (ARG_SEP expr)*)? PAR_CLOSE 
              | NAME expr;
-number       : SUB? INT ('.' INT)? (('e'|'E') power=INT)?;
+number       : SUB? INT ('.' INT)? (('E') power=INT)?;
 
 ARG_SEP     : ',' ;
 NAME        : [a-zA-Z]+ ;

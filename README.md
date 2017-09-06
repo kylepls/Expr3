@@ -33,6 +33,15 @@ Evaluate simple math expressions.
     (2)(4) = 8
     2pi    = 6.28...
     
+    Compare Numbers:
+    
+    1 > 0 = 1
+    1 < 0 = 0
+    1 >= 1 = 1
+    1 <= 2 = 1
+    
+See [Tests](https://github.com/kylepls/Expr3/tree/master/src/test/resources/functions) for more.
+    
 ##### Usage:
 
 ```java

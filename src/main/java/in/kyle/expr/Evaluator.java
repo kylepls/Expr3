@@ -138,7 +138,7 @@ public class Evaluator extends ExprBaseVisitor<Double> {
         return visit(ctx.number());
     }
     
-    public void registerFunction(String name, Method method) {
+    void registerFunction(String name, Method method) {
         if (method.getReturnType().equals(Double.TYPE) ||
             method.getReturnType().equals(Integer.TYPE) ||
             method.getReturnType().equals(Long.TYPE)) {

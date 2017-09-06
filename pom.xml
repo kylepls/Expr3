@@ -26,6 +26,11 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/in/kyle/expr/generated/*</exclude>
+                    </excludes>
+                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>

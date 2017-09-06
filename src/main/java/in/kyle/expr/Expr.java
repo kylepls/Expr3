@@ -35,17 +35,17 @@ public class Expr {
         functionMath("toRadians", "rad", d);
         functionMath("toDegrees", "deg", d);
         
-        function(MethodHelper.getMethod(BasicFunctions.class, "ln", d));
+        registerFunction(MethodHelper.getMethod(BasicFunctions.class, "ln", d));
         
-        variable("e", Math.E);
-        variable("pi", Math.PI);
+        registerVariable("e", Math.E);
+        registerVariable("pi", Math.PI);
     }
     
-    private void function(Method method) {
-        function(method, method.getName());
+    public void registerFunction(Method method) {
+        registerFunction(method, method.getName());
     }
     
-    private void function(Method method, String name) {
+    public void registerFunction(Method method, String name) {
         evaluator.registerFunction(name, method);
     }
     
@@ -54,10 +54,10 @@ public class Expr {
     }
     
     private void functionMath(String name, String alias, Class<?>... args) {
-        function(MethodHelper.getMethod(Math.class, name, args), alias);
+        registerFunction(MethodHelper.getMethod(Math.class, name, args), alias);
     }
     
-    private void variable(String name, double value) {
+    public void registerVariable(String name, double value) {
         evaluator.registerVariable(name, value);
     }
     

@@ -2,7 +2,10 @@ package in.kyle.expr.util;
 
 import java.lang.reflect.Method;
 
-public class MethodHelper {
+public final class MethodHelper {
+    
+    private MethodHelper() {
+    }
     
     public static Method getMethod(Class<?> clazz, String name, Class<?>... args) {
         try {
